@@ -1,0 +1,9 @@
+[app]
+name = "GPM"
+
+[database]
+name = "testdb"
+username = "postgres"
+password = "qoxogus1313"
+host = "localhost"
+port = "5432"
