@@ -9,7 +9,7 @@ import (
 func RunAPI(address string) {
 	e := echo.New()
 	// e.Use(middleware.Logger())
-	tmp := "C:/Users/user/go/src/Gsmfestival-Master-Front"
+	tmp := "/Users/baetaehyeon/go/src/Gsmfestival-Master-Front"
 
 	e.Static("/", "static")
 

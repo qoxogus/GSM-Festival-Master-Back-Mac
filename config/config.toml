@@ -2,7 +2,7 @@
 name = "GPM"
 
 [database]
-name = "GPM_server"
+name = "testdb"
 username = "baetaehyeon"
 password = "qoxogus1313"
 host = "localhost"
