@@ -26,7 +26,7 @@ func Connect() {
 		dbConf.Name,
 		dbConf.Password)
 
-	db, err := gorm.Open("postgres", connectOptions)
+	db, err := gorm.Open("GPM_server", connectOptions)
 
 	if err != nil {
 		panic(err)

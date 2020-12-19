@@ -2,8 +2,8 @@
 name = "GPM"
 
 [database]
-name = "testdb"
-username = "postgres"
+name = "GPM_server"
+username = "baetaehyeon"
 password = "qoxogus1313"
 host = "localhost"
 port = "5432"
