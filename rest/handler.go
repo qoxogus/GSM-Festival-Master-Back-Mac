@@ -59,7 +59,9 @@ func Signup(c echo.Context) (err error) {
 	// }
 
 	User = &database.Bae{Classnum: u.Classnum, Name: u.Name, Pw: u.Pw, IsManager: u.IsManager}
-	err = database.DB.Create(User).Error //error
+	err = database.DB.Create(User).Error //ismanager not null error
+	//pq: column "is_manager" does not exist
+	//pq: Could not complete operation in a failed transaction
 	if err != nil {
 		return c.JSON(500, map[string]interface{}{
 			"status":  500,
