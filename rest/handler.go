@@ -3,6 +3,7 @@ package rest
 import (
 	"GSM-Festival-Master-Back/database"
 	jwt "GSM-Festival-Master-Back/lib"
+	"fmt"
 
 	"github.com/labstack/echo"
 )
@@ -36,13 +37,14 @@ func Signup(c echo.Context) (err error) {
 	if err := c.Bind(u); err != nil {
 		return err
 	}
+	fmt.Println(u.Classnum, u.Name, u.Email, u.Pw) //이름 비번 입력안댐
 	if u.Classnum == "" || u.Name == "" || u.Email == "" || u.Pw == "" {
 		return c.JSON(400, map[string]interface{}{
 			"status":  400,
 			"message": "모든 값을 입력해주세요",
 		})
 	}
-	User := &database.User{}
+	User := &database.Bae{}
 
 	err = database.DB.Where("classnum = ?", u.Classnum).Find(User).Error
 	if err == nil {
@@ -51,8 +53,13 @@ func Signup(c echo.Context) (err error) {
 			"message": "이미 사용중인 학번입니다.",
 		})
 	}
-	User = &database.User{Classnum: u.Classnum, Name: u.Name, Pw: u.Pw, IsManager: u.IsManager}
-	err = database.DB.Create(User).Error
+
+	// if e.POST == "/admin" {
+	// 	u.IsManager == "true"
+	// }
+
+	User = &database.Bae{Classnum: u.Classnum, Name: u.Name, Pw: u.Pw, IsManager: u.IsManager}
+	err = database.DB.Create(User).Error //error
 	if err != nil {
 		return c.JSON(500, map[string]interface{}{
 			"status":  500,
@@ -77,7 +84,7 @@ func Signin(c echo.Context) (err error) {
 	if err := c.Bind(u); err != nil {
 		return err
 	}
-	User := &database.User{}
+	User := &database.Bae{}
 	err = database.DB.Where("email = ? AND pw = ?", u.Email, u.Pw).Find(User).Error
 	if err != nil {
 		return c.JSON(400, map[string]interface{}{

@@ -3,7 +3,7 @@ package database
 import "time"
 
 //User struct
-type User struct {
+type Bae struct {
 	Classnum  string    `gorm:"primary_key; auto_increment:true" json:"classnum"`
 	Name      string    `gorm:"type:varchar(255);not null" json:"name"`
 	Email     string    `gorm:"type:varchar(255);noe null" json:"email"`
