@@ -11,16 +11,17 @@ func RunAPI(address string) {
 	// e.Use(middleware.Logger())
 	tmp := "/Users/baetaehyeon/go/src/Gsmfestival-Master-Front"
 
-	e.Static("/", "static")
+	// e.Static("/", "static")
 
 	e.Use(middleware.Static(tmp))
 
-	e.GET("/", GetMainPage) //서버 테스트용 코드
-	e.GET("/login", Loginpage)
-	e.GET("/signup", Signuppage)
+	e.GET("/main", GetMainPage) //서버 테스트용 코드
+	e.GET("/loginpage", Loginpage)
+	e.GET("/signuppage", Signuppage)
 	e.GET("/application", Applicationpage)
+	e.GET("/classroominuse", Classroominuse)
 
-	e.POST("/loginpage", Signup)
+	e.POST("/signp", Signup)
 	e.POST("/main", Signin)
 
 	e.Logger.Fatal(e.Start(address))

@@ -4,8 +4,9 @@ import (
 	"fmt"
 	"log"
 
+	"GSM-Festival-Master-Back/config"
+
 	"github.com/jinzhu/gorm"
-	"github.com/qoxogus/GSM-Festival-Master-Back/config"
 )
 
 type connectionMethod interface {

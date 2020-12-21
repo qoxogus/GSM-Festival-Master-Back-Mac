@@ -1,9 +1,10 @@
 package rest
 
 import (
+	"GSM-Festival-Master-Back/database"
+	jwt "GSM-Festival-Master-Back/lib"
+
 	"github.com/labstack/echo"
-	"github.com/qoxogus/GSM-Festival-Master-Back/database"
-	jwt "github.com/qoxogus/GSM-Festival-Master-Back/lib"
 )
 
 type handlerInterface interface {
@@ -145,6 +146,14 @@ func Signin(c echo.Context) (err error) {
 	// if err != nil {
 	// 	return err
 	// }
+}
+
+//Classroom in use page
+func Classroominuse(c echo.Context) (err error) {
+	if err != nil {
+		return err
+	}
+	return c.File("/Users/baetaehyeon/go/src/Gsmfestival-Master-Front/admin.html")
 }
 
 //Loginpage
