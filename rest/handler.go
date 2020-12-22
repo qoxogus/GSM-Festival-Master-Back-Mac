@@ -5,16 +5,18 @@ import (
 	jwt "GSM-Festival-Master-Back/lib"
 	"fmt"
 
+	_ "github.com/lib/pq"
+
 	"github.com/labstack/echo"
 )
 
-type handlerInterface interface {
-	Login(c echo.Context) error
-	Signup(c echo.Context) error
-	updateUser(c echo.Context) error
-	SignOut(c echo.Context)
-	deleteUser(c echo.Context) error
-}
+// type handlerInterface interface {
+// 	Login(c echo.Context) error
+// 	Signup(c echo.Context) error
+// 	updateUser(c echo.Context) error
+// 	SignOut(c echo.Context)
+// 	deleteUser(c echo.Context) error
+// }
 
 //Get main Get
 func GetMainPage(c echo.Context) (err error) {
@@ -28,7 +30,7 @@ type SignUpParam struct {
 	Name      string `json:"name" form:"name" query:"name"`
 	Email     string `json:"email" form:"email" query:"email"`
 	Pw        string `json:"pw" form:"pw" query:"pw"`
-	IsManager bool   `json:"manager" form:"mamager" query:"manager"`
+	IsManager bool   `json:"is_manager" form:"is_mamager" query:"is_manager"`
 }
 
 //Get signup Get
@@ -37,14 +39,14 @@ func Signup(c echo.Context) (err error) {
 	if err := c.Bind(u); err != nil {
 		return err
 	}
-	fmt.Println(u.Classnum, u.Name, u.Email, u.Pw) //이름 비번 입력안댐
+	fmt.Println(u.Classnum, u.Name, u.Email, u.Pw)
 	if u.Classnum == "" || u.Name == "" || u.Email == "" || u.Pw == "" {
 		return c.JSON(400, map[string]interface{}{
 			"status":  400,
 			"message": "모든 값을 입력해주세요",
 		})
 	}
-	User := &database.Bae{}
+	User := &database.User{}
 
 	err = database.DB.Where("classnum = ?", u.Classnum).Find(User).Error
 	if err == nil {
@@ -57,11 +59,14 @@ func Signup(c echo.Context) (err error) {
 	// if e.POST == "/admin" {
 	// 	u.IsManager == "true"
 	// }
+	// u.IsManager = false
+	User = &database.User{Classnum: u.Classnum, Name: u.Name, Email: u.Email, Pw: u.Pw, IsManager: u.IsManager}
+	err = database.DB.Create(User).Error
+	//ismanager not null error
 
-	User = &database.Bae{Classnum: u.Classnum, Name: u.Name, Pw: u.Pw, IsManager: u.IsManager}
-	err = database.DB.Create(User).Error //ismanager not null error
 	//pq: column "is_manager" does not exist
 	//pq: Could not complete operation in a failed transaction
+
 	if err != nil {
 		return c.JSON(500, map[string]interface{}{
 			"status":  500,
@@ -86,7 +91,7 @@ func Signin(c echo.Context) (err error) {
 	if err := c.Bind(u); err != nil {
 		return err
 	}
-	User := &database.Bae{}
+	User := &database.User{}
 	err = database.DB.Where("email = ? AND pw = ?", u.Email, u.Pw).Find(User).Error
 	if err != nil {
 		return c.JSON(400, map[string]interface{}{
@@ -120,41 +125,6 @@ func Signin(c echo.Context) (err error) {
 		"refreshToken": refreshToken,
 		"accessToken":  accessToken,
 	})
-	// Bind
-	// mu := new(model.User) //user 불러오기
-	// if err = c.Bind(mu); err != nil {
-	// 	return
-	// }
-
-	// // // email := bson.M{"email": u.Email}
-	// // // password := bson.M{"password": u.Password}
-	// filter := bson.M{"token": mu.Token}
-
-	// collection, err := dblayer.GetDBCollection()
-	// if err != nil {
-	// 	return err
-	// 	// return &echo.HTTPError{Code: http.StatusUnauthorized,Message:"invalid email or password"}
-	// }
-
-	// err = collection.FindOne(context.TODO(), filter).Decode(&u)
-
-	// _, err = collection.UpdateOne(context.TODO(), filter, &u)
-
-	// defer collection.Database().Client().Disconnect(context.TODO())
-
-	// // Create token
-	// token := jwt.New(jwt.SigningMethodHS256)
-
-	// // Set claims
-	// claims := token.Claims.(jwt.MapClaims)
-	// claims["id"] = u.ID
-	// claims["exp"] = time.Now().Add(time.Hour * 1).Unix()
-
-	// // Generate encoded token and send it as response
-	// u.Token, err = token.SignedString([]byte("secret"))
-	// if err != nil {
-	// 	return err
-	// }
 }
 
 //Classroom in use page
