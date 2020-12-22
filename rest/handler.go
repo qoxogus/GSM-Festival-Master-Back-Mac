@@ -91,6 +91,7 @@ func Signin(c echo.Context) (err error) {
 	if err := c.Bind(u); err != nil {
 		return err
 	}
+	fmt.Println(u.Email, u.Pw)
 	User := &database.User{}
 	err = database.DB.Where("email = ? AND pw = ?", u.Email, u.Pw).Find(User).Error
 	if err != nil {

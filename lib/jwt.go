@@ -44,7 +44,7 @@ func CreateAccessToken(Email, Pw string, IsManager bool) (string, error) {
 	return t, nil
 }
 
-// VerifyRefreshToken : Middleware that verify RefreshToken
+// VerifyRefreshToken : Middleware that verify RefreshToken  검증 RefreshToken
 func VerifyRefreshToken(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		token := c.Get("user").(*jwt.Token)
@@ -57,7 +57,7 @@ func VerifyRefreshToken(next echo.HandlerFunc) echo.HandlerFunc {
 	}
 }
 
-// VerifyAccessToken : Middleware that verify AccessToken
+// VerifyAccessToken : Middleware that verify AccessToken  검증 AccessToken
 func VerifyAccessToken(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		token := c.Get("user").(*jwt.Token)
