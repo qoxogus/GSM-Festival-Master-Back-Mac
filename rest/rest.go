@@ -22,7 +22,7 @@ func RunAPI(address string) {
 	e.GET("/classroominuse", Classroominuse)
 
 	e.POST("/signup", Signup)
-	e.POST("/login", Signin)
+	e.POST("/signin", Signin)
 
 	e.Logger.Fatal(e.Start(address))
 }
