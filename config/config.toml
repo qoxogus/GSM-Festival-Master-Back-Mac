@@ -1,9 +1,0 @@
-[app]
-name = "GPM"
-
-[database]
-name = "testdb"
-username = "baetaehyeon"
-password = "qoxogus1313"
-host = "localhost"
-port = "5432"
